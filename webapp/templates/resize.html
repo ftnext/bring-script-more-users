@@ -1,0 +1,10 @@
+<h1>Resize image</h1>
+
+{% if image_path %}
+  <img src="{{ image_path }}">
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+  <input type="file" name="image_file" required>
+  <input type="submit" value="Send">
+</form>
