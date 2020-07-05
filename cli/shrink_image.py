@@ -57,17 +57,17 @@ def existing_path(path_str):
 if __name__ == "__main__":
     # code for CLI
     parser = ArgumentParser()
-    parser.add_argument("image_dir_path", type=existing_path)
+    parser.add_argument("target_image_path", type=existing_path)
     parser.add_argument("--max_length", default=300, type=int)
     args = parser.parse_args()
 
-    image_dir_path = args.image_dir_path
-    if image_dir_path.is_file():
-        target_paths = [image_dir_path]
+    target_image_path = args.target_image_path
+    if target_image_path.is_file():
+        target_paths = [target_image_path]
         shrinked_dir_path = Path("images")
     else:
-        target_paths = image_dir_path.iterdir()
-        shrinked_dir_path = Path("images") / image_dir_path.name
+        target_paths = target_image_path.iterdir()
+        shrinked_dir_path = Path("images") / target_image_path.name
         shrinked_dir_path.mkdir(exist_ok=True)
 
     for image_path in target_paths:
