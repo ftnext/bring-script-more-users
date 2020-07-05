@@ -4,7 +4,7 @@
 - Shrinked images are placed in directory `images/img_pyconjp`
 """
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser, ArgumentTypeError
 from pathlib import Path
 
 from PIL import Image
@@ -46,18 +46,27 @@ def resize_image(image_path, save_path, max_length):
         resized_image.save(save_path)
 
 
+def existing_path(path_str):
+    path = Path(path_str)
+    if not path.exists():
+        message = f"{path_str}: No such file or directory"
+        raise ArgumentTypeError(message)
+    return path
+
+
 if __name__ == "__main__":
     # code for CLI
     parser = ArgumentParser()
-    parser.add_argument("image_dir_path")
+    parser.add_argument("image_dir_path", type=existing_path)
+    parser.add_argument("--max_length", default=300, type=int)
     args = parser.parse_args()
 
-    image_dir_path = Path(args.image_dir_path)
+    image_dir_path = args.image_dir_path
     shrinked_dir_path = Path("images") / image_dir_path.name
     shrinked_dir_path.mkdir(exist_ok=True)
     for image_path in image_dir_path.iterdir():
         if image_path.suffix not in SHRINK_TARGET_EXTENSION:
             continue
         save_path = shrinked_dir_path / image_path.name
-        resize_image(image_path, save_path, 300)
+        resize_image(image_path, save_path, args.max_length)
         print(f"{image_path} is shrinked: {save_path}")
