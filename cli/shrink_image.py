@@ -62,9 +62,15 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     image_dir_path = args.image_dir_path
-    shrinked_dir_path = Path("images") / image_dir_path.name
-    shrinked_dir_path.mkdir(exist_ok=True)
-    for image_path in image_dir_path.iterdir():
+    if image_dir_path.is_file():
+        target_paths = [image_dir_path]
+        shrinked_dir_path = Path("images")
+    else:
+        target_paths = image_dir_path.iterdir()
+        shrinked_dir_path = Path("images") / image_dir_path.name
+        shrinked_dir_path.mkdir(exist_ok=True)
+
+    for image_path in target_paths:
         if image_path.suffix not in SHRINK_TARGET_EXTENSION:
             continue
         save_path = shrinked_dir_path / image_path.name
