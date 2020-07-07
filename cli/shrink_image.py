@@ -1,7 +1,8 @@
-"""Shrink images in `../target_images/img_pyconjp`
+"""Shrink images of the path specified on the command line
 
-- Images with a width or height greater than 300px are to be resized
-- Shrinked images are placed in directory `images/img_pyconjp`
+- Images with a width or height greater than specified size (default 300px)
+    are to be resized
+- Shrinked images are placed in a directory under `images/`
 """
 
 from argparse import ArgumentParser, ArgumentTypeError
@@ -61,6 +62,7 @@ if __name__ == "__main__":
     parser.add_argument("--max_length", default=300, type=int)
     args = parser.parse_args()
 
+    # Enable to pass not only a directory path but also a file path
     target_image_path = args.target_image_path
     if target_image_path.is_file():
         target_paths = [target_image_path]
