@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="/eel.js"></script>
+    <script type="text/javascript">
+      async function greeting() {
+          let greeting = document.getElementById("greeting");
+          let message = await eel.say_hello()();
+          greeting.innerHTML = message;
+      }
+    </script>
+  </head>
+  <body>
+    <a href="javascript:void()" onclick="greeting()">Greet</a>
+    <p id="greeting"></p>
+  </body>
+</html>
