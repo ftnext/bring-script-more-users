@@ -3,10 +3,12 @@
   <head>
     <script type="text/javascript" src="/eel.js"></script>
     <script type="text/javascript">
-      async function greeting() {
+      function print_greeting(message) {
           let greeting = document.getElementById("greeting");
-          let message = await eel.say_hello()();
           greeting.innerHTML = message;
+      }
+      function greeting() {
+          eel.say_hello()(print_greeting);
       }
     </script>
   </head>
