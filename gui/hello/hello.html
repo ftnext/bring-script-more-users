@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="/eel.js"></script>
+    <script type="text/javascript">
+      function print_greeting(message) {
+          let greeting = document.getElementById("greeting");
+          greeting.innerHTML = message;
+      }
+      function greeting() {
+          eel.say_hello()(print_greeting);
+      }
+      // Another way to receive return values: await
+      // async function greeting() {
+      //     let greeting = document.getElementById("greeting");
+      //     let message = await eel.say_hello()();
+      //     greeting.innerHTML = message;
+      // }
+    </script>
+  </head>
+  <body>
+    <button type="button" onclick="greeting()">Greet</button>
+    <p id="greeting"></p>
+  </body>
+</html>
