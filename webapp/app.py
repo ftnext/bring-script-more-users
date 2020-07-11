@@ -46,12 +46,16 @@ def resize():
     if request.method == "GET":
         return render_template("resize.html")
 
-    image_file = request.files["image_file"]
+    image_files = request.files.getlist("image_file")
     max_length = int(request.form["max_length"])
-    secure_name = secure_filename(image_file.filename)
-    resized_image_path = f"images/{secure_name}"
-    resize_image(image_file, resized_image_path, max_length)
-    return render_template("resize.html", image_path=resized_image_path)
+    image_paths = []
+    for image_file in image_files:
+        secure_name = secure_filename(image_file.filename)
+        resized_image_path = f"images/{secure_name}"
+        resize_image(image_file, resized_image_path, max_length)
+        # TODO: resizeの必要がないときはappendしたくない
+        image_paths.append(resized_image_path)
+    return render_template("resize.html", image_paths=image_paths)
 
 
 if __name__ == "__main__":
