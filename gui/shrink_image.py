@@ -40,13 +40,28 @@ def resize_image(image_path, save_path, max_length):
         resized_image.save(save_path)
 
 
+def existing_path(path_str):
+    path = Path(path_str)
+    if not path.exists():
+        print(f"{path_str}: No such file or directory")
+        return None
+    return path
+
+
 @eel.expose()
 def resize(target_image_path_str, max_length):
-    target_image_path = Path(target_image_path_str)
-    target_paths = target_image_path.iterdir()
-    # web directory == localhost:8000/
-    shrinked_dir_path = Path("web/images") / target_image_path.name
-    shrinked_dir_path.mkdir(exist_ok=True)
+    target_image_path = existing_path(target_image_path_str)
+    if not target_image_path:
+        return None
+
+    if target_image_path.is_file():
+        target_paths = [target_image_path]
+        # web directory == localhost:8000/
+        shrinked_dir_path = Path("web/images")
+    else:
+        target_paths = target_image_path.iterdir()
+        shrinked_dir_path = Path("web/images") / target_image_path.name
+        shrinked_dir_path.mkdir(exist_ok=True)
 
     for image_path in target_paths:
         if image_path.suffix not in SHRINK_TARGET_EXTENSION:
