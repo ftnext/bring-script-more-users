@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 import eel
 from PIL import Image
@@ -63,12 +64,16 @@ def resize(target_image_path_str, max_length):
         shrinked_dir_path = Path("web/images") / target_image_path.name
         shrinked_dir_path.mkdir(exist_ok=True)
 
+    save_paths = []
     for image_path in target_paths:
         if image_path.suffix not in SHRINK_TARGET_EXTENSION:
             continue
         save_path = shrinked_dir_path / image_path.name
         resize_image(image_path, save_path, max_length)
         print(f"{image_path} is shrinked: {save_path}")
+        # To specify image path under web dir as src attribute of img element
+        save_paths.append(re.sub(r"^web/", "", str(save_path)))
+    return save_paths
 
 
 eel.init("web")
