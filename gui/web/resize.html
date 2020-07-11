@@ -2,9 +2,17 @@
 <html>
   <head>
     <script type="text/javascript" src="/eel.js"></script>
+    <script type="text/javascript">
+      function resize() {
+        let targetImagePath = document.getElementById("input-box").value;
+        eel.resize(targetImagePath)
+      }
+    </script>
   </head>
 
   <body>
-    <button type="button" onclick="eel.resize()">Resize</button>
+    <label for="input-box">Specify resized image file or directory path:</label>
+    <input id="input-box" placeholder="Type image path here" value="/Users/" size="60"><br>
+    <button type="button" onclick="resize()">Resize</button>
   </body>
 </html>

@@ -41,8 +41,8 @@ def resize_image(image_path, save_path, max_length):
 
 
 @eel.expose()
-def resize():
-    target_image_path = Path("../target_images/img_pyconjp")
+def resize(target_image_path_str):
+    target_image_path = Path(target_image_path_str)
     target_paths = target_image_path.iterdir()
     # web directory == localhost:8000/
     shrinked_dir_path = Path("web/images") / target_image_path.name
