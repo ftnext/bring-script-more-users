@@ -41,7 +41,7 @@ def resize_image(image_path, save_path, max_length):
 
 
 @eel.expose()
-def resize(target_image_path_str):
+def resize(target_image_path_str, max_length):
     target_image_path = Path(target_image_path_str)
     target_paths = target_image_path.iterdir()
     # web directory == localhost:8000/
@@ -52,7 +52,7 @@ def resize(target_image_path_str):
         if image_path.suffix not in SHRINK_TARGET_EXTENSION:
             continue
         save_path = shrinked_dir_path / image_path.name
-        resize_image(image_path, save_path, 300)
+        resize_image(image_path, save_path, max_length)
         print(f"{image_path} is shrinked: {save_path}")
 
 

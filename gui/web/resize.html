@@ -4,15 +4,23 @@
     <script type="text/javascript" src="/eel.js"></script>
     <script type="text/javascript">
       function resize() {
-        let targetImagePath = document.getElementById("input-box").value;
-        eel.resize(targetImagePath)
+        let targetImagePath = document.getElementById("image-path-input").value;
+        let maxLengthStr = document.getElementById("max-length-input").value;
+        let maxLength = parseInt(maxLengthStr, 10)
+        eel.resize(targetImagePath, maxLength)
       }
     </script>
   </head>
 
   <body>
-    <label for="input-box">Specify resized image file or directory path:</label>
-    <input id="input-box" placeholder="Type image path here" value="/Users/" size="60"><br>
+    <div>
+      <label for="image-path-input">Specify resized image file or directory path:</label>
+      <input id="image-path-input" placeholder="Type image path here" value="/Users/" size="60">
+    </div>
+    <div>
+      <label for="max-length-input">Specify max length:</label>
+      <input id="max-length-input" value="300">
+    </div>
     <button type="button" onclick="resize()">Resize</button>
   </body>
 </html>
