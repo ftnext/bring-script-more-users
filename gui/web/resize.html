@@ -2,20 +2,9 @@
 <html>
   <head>
     <script type="text/javascript" src="/eel.js"></script>
-    <script type="text/javascript">
-      async function resize_image() {
-          let image_input = document.getElementById("input-box").value;
-          let image_div = document.getElementById("resized-image");
-
-          let resized_file = await eel.resize(image_input)();
-          image_div.innerHTML = `<img src=../${resized_file}>`;
-      }
-    </script>
   </head>
 
   <body>
-    <input id="input-box" placeholdclicker="Type image path here" value="/Users/">
-    <a href="javascript:void()" onclick="resize_image()">Resize</a>
-    <div id="resized-image">---</div>
+    <button type="button" onclick="eel.resize()">Resize</button>
   </body>
 </html>
