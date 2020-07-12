@@ -1,3 +1,6 @@
+import uuid
+from pathlib import Path
+
 from flask import Flask, render_template, request
 from PIL import Image
 from werkzeug.utils import secure_filename
@@ -48,12 +51,15 @@ def resize():
     if request.method == "GET":
         return render_template("resize.html")
 
-    image_files = request.files.getlist("image_file")
+    random_id = uuid.uuid4()
+    shrinked_dir_path = Path(f"images/{random_id}")
+    shrinked_dir_path.mkdir(exist_ok=True)
     max_length = int(request.form["max_length"])
+    image_files = request.files.getlist("image_file")
     image_paths = []
     for image_file in image_files:
         secure_name = secure_filename(image_file.filename)
-        resized_image_path = f"images/{secure_name}"
+        resized_image_path = shrinked_dir_path / secure_name
         has_resized = resize_image(image_file, resized_image_path, max_length)
         if has_resized:
             image_paths.append(resized_image_path)
