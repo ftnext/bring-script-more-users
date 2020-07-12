@@ -39,6 +39,8 @@ def resize_image(image_path, save_path, max_length):
         shrinked_size = calculate_shrinked_size(width, height, max_length)
         resized_image = image.resize(shrinked_size, Image.BICUBIC)
         resized_image.save(save_path)
+        return True
+    return False
 
 
 @app.route("/resize", methods=["GET", "POST"])
@@ -52,9 +54,9 @@ def resize():
     for image_file in image_files:
         secure_name = secure_filename(image_file.filename)
         resized_image_path = f"images/{secure_name}"
-        resize_image(image_file, resized_image_path, max_length)
-        # TODO: resizeの必要がないときはappendしたくない
-        image_paths.append(resized_image_path)
+        has_resized = resize_image(image_file, resized_image_path, max_length)
+        if has_resized:
+            image_paths.append(resized_image_path)
     return render_template("resize.html", image_paths=image_paths)
 
 
