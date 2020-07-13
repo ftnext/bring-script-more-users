@@ -1,10 +1,21 @@
 <h1>Resize image</h1>
 
-{% if image_path %}
+{% for image_path in image_paths %}
   <img src="{{ image_path }}">
-{% endif %}
+{% else %}
+  <p>There were no images that needed to be reduced in size.</p>
+{% endfor %}
 
 <form method="post" enctype="multipart/form-data">
-  <input type="file" name="image_file" required>
-  <input type="submit" value="Send">
+  <div>
+    <label for="image_file">Specify image to be resized in your computer:</label>
+    <input id="image_file" type="file" name="image_file" accept="image/png, image/jpeg" required multiple>
+  </div>
+  <div>
+    <label for="max-length-input">Specify max length:</label>
+    <input id="max_length" name="max_length" value="300" required>
+  </div>
+  <div>
+    <button type="submit">Send</button>
+  </div>
 </form>
