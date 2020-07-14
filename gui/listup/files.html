@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="/eel.js"></script>
+    <script type="text/javascript">
+      function showListItems(paths) {
+        let listHtml;
+        if (paths.length > 1) {
+          tags = paths.map(path => `<li>${path}</li>`);
+          listHtml = tags.join('');
+        } else {
+          listHtml = `<li>There is no files or directories.</li>`;
+        }
+        let filesList = document.getElementById("files-list");
+        filesList.innerHTML = listHtml;
+      }
+
+      function listup() {
+        let targetPath = document.getElementById("path-input").value;
+        eel.listup(targetPath)(showListItems);
+      }
+    </script>
+  </head>
+
+  <body>
+    <div>
+      <label for="path-input">Specify file or directory path:</label>
+      <input id="path-input" placeholder="Type path here" value="/Users/" size="60">
+    </div>
+    <button type="button" onclick="listup()">List up</button>
+    <ul id="files-list"></ul>
+  </body>
+</html>
