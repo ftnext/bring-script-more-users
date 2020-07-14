@@ -39,6 +39,8 @@ def resize_image(image_path, save_path, max_length):
         shrinked_size = calculate_shrinked_size(width, height, max_length)
         resized_image = image.resize(shrinked_size, Image.BICUBIC)
         resized_image.save(save_path)
+        return True
+    return False
 
 
 def existing_path(path_str):
@@ -69,10 +71,12 @@ def resize(target_image_path_str, max_length):
         if image_path.suffix not in SHRINK_TARGET_EXTENSION:
             continue
         save_path = shrinked_dir_path / image_path.name
-        resize_image(image_path, save_path, max_length)
-        print(f"{image_path} is shrinked: {save_path}")
-        # To specify image path under web dir as src attribute of img element
-        save_paths.append(re.sub(r"^web/", "", str(save_path)))
+        has_resized = resize_image(image_path, save_path, max_length)
+        if has_resized:
+            print(f"{image_path} is shrinked: {save_path}")
+            # To specify image path under web dir
+            # as src attribute of img element
+            save_paths.append(re.sub(r"^web/", "", str(save_path)))
     return save_paths
 
 
