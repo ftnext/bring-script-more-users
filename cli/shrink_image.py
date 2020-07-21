@@ -70,7 +70,7 @@ def main():
     else:
         target_paths = target_image_path.iterdir()
         shrinked_dir_path = Path("images") / target_image_path.name
-        shrinked_dir_path.mkdir(exist_ok=True)
+    shrinked_dir_path.mkdir(parents=True, exist_ok=True)
 
     for image_path in target_paths:
         if image_path.suffix not in SHRINK_TARGET_EXTENSION:
