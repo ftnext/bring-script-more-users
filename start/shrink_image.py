@@ -43,6 +43,8 @@ def resize_image(image_path, save_path, max_length):
         shrinked_size = calculate_shrinked_size(width, height, max_length)
         resized_image = image.resize(shrinked_size, Image.BICUBIC)
         resized_image.save(save_path)
+        return True
+    return False
 
 
 if __name__ == "__main__":
