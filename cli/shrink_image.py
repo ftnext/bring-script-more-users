@@ -55,7 +55,7 @@ def existing_path(path_str):
     return path
 
 
-if __name__ == "__main__":
+def main():
     # code for CLI
     parser = ArgumentParser()
     parser.add_argument("target_image_path", type=existing_path)
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     else:
         target_paths = target_image_path.iterdir()
         shrinked_dir_path = Path("images") / target_image_path.name
-        shrinked_dir_path.mkdir(exist_ok=True)
+    shrinked_dir_path.mkdir(parents=True, exist_ok=True)
 
     for image_path in target_paths:
         if image_path.suffix not in SHRINK_TARGET_EXTENSION:
@@ -78,3 +78,7 @@ if __name__ == "__main__":
         save_path = shrinked_dir_path / image_path.name
         resize_image(image_path, save_path, args.max_length)
         print(f"{image_path} is shrinked: {save_path}")
+
+
+if __name__ == "__main__":
+    main()
