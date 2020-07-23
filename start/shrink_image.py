@@ -9,7 +9,7 @@ from pathlib import Path
 from PIL import Image
 
 
-SHRINK_TARGET_EXTENSION = (".jpg", ".png")
+SHRINK_TARGET_EXTENSION = (".jpg", ".jpeg", ".png")
 
 
 def calculate_shrinked_size(width, height, max_length):
@@ -36,6 +36,10 @@ def calculate_shrinked_size(width, height, max_length):
 def resize_image(image_path, save_path, max_length):
     """Resize a given image so that the width and the height
     is equal or less than max_length
+
+    Return a result as bool:
+    - When the image need to resize and succeed, return True
+    - When the image does not need to resize, return False
     """
     image = Image.open(image_path)
     width, height = image.size
@@ -43,6 +47,8 @@ def resize_image(image_path, save_path, max_length):
         shrinked_size = calculate_shrinked_size(width, height, max_length)
         resized_image = image.resize(shrinked_size, Image.BICUBIC)
         resized_image.save(save_path)
+        return True
+    return False
 
 
 if __name__ == "__main__":
