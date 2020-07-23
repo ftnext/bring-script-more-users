@@ -6,8 +6,6 @@ from PIL import Image
 from werkzeug.utils import secure_filename
 
 
-SHRINK_TARGET_EXTENSION = (".jpg", ".png")
-
 app = Flask(__name__, static_folder="images")
 
 

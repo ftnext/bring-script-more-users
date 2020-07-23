@@ -5,7 +5,7 @@ import eel
 from PIL import Image
 
 
-SHRINK_TARGET_EXTENSION = (".jpg", ".png")
+SHRINK_TARGET_EXTENSION = (".jpg", ".jpeg", ".png")
 
 
 def calculate_shrinked_size(width, height, max_length):
