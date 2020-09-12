@@ -4,6 +4,31 @@ from unittest.mock import call, MagicMock, patch
 from bringscript import core
 
 
+class TemplateRendererTestCase(TestCase):
+    def test_init(self):
+        from jinja2 import Environment
+
+        environment = MagicMock(spec=Environment)
+
+        actual = core.TemplateRenderer(environment)
+
+        self.assertEqual(actual._environment, environment)
+
+    @patch("bringscript.core.Environment")
+    @patch("bringscript.core.FileSystemLoader")
+    def test_create(self, file_system_loader, environment):
+        template_dir_name = MagicMock(spec=str)
+
+        actual = core.TemplateRenderer.create(template_dir_name)
+
+        self.assertIsInstance(actual, core.TemplateRenderer)
+        self.assertEqual(actual._environment, environment.return_value)
+        file_system_loader.assert_called_once_with(template_dir_name)
+        environment.assert_called_once_with(
+            loader=file_system_loader.return_value
+        )
+
+
 class ComponentsGeneratorTestCase(TestCase):
     def setUp(self):
         class TestSampleComponentsGenerator(core.ComponentsGenerator):

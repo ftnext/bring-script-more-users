@@ -1,13 +1,20 @@
 from abc import ABC, abstractmethod
 
+from jinja2 import Environment, FileSystemLoader
+
 
 class TemplateRenderer:
+    def __init__(self, environment):
+        self._environment = environment
+
     def render_in_file(self):
         raise NotImplementedError
 
     @classmethod
-    def create(cls):
-        raise NotImplementedError
+    def create(cls, template_dir_name: str) -> "TemplateRenderer":
+        file_loader = FileSystemLoader(template_dir_name)
+        environment = Environment(loader=file_loader)
+        return cls(environment)
 
 
 class ComponentsGenerator(ABC):
