@@ -5,6 +5,10 @@ class TemplateRenderer:
     def render_in_file(self):
         raise NotImplementedError
 
+    @classmethod
+    def create(cls):
+        raise NotImplementedError
+
 
 class ComponentsGenerator(ABC):
     def __init__(self, renderer, generator_args):
@@ -24,3 +28,8 @@ class ComponentsGenerator(ABC):
     @abstractmethod
     def _postprocess(self):
         pass
+
+    @classmethod
+    def create(cls, template_dir, generator_args):
+        renderer = TemplateRenderer.create(template_dir)
+        return cls(renderer, generator_args)
