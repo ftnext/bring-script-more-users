@@ -1,4 +1,4 @@
-from bringscript.core import ComponentsGenerator
+from bringscript.core import ComponentsGenerator, TemplateRenderer
 
 
 class EelComponentsGenerator(ComponentsGenerator):
@@ -8,8 +8,9 @@ class EelComponentsGenerator(ComponentsGenerator):
         super().__init__(renderer, generator_args)
 
     @classmethod
-    def create(cls):
-        raise NotImplementedError
+    def create(cls, generator_args, parent_dir, child_dir):
+        renderer = TemplateRenderer.create()
+        return cls(renderer, generator_args, parent_dir, child_dir)
 
     def _preprocess(self):
         pass
