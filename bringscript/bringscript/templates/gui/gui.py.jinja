@@ -1,0 +1,11 @@
+import eel
+
+
+@eel.expose()
+def spam():
+    pass
+
+
+if __name__ == "__main__":
+    eel.init("web")
+    eel.start("{{ app_name }}.html", size=(600, 400))
