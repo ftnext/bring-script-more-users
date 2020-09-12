@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Tuple
 
 
 @dataclass(frozen=True)
@@ -9,5 +9,5 @@ class TemplateRenderArgument:
     dest: Path
     context: Dict
 
-    def as_tuple(self):
-        raise NotImplementedError
+    def as_tuple(self) -> Tuple:
+        return (self.src, self.dest, self.context)
