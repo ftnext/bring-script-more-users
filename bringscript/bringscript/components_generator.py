@@ -1,7 +1,11 @@
-from bringscript.core import ComponentsGenerator, TemplateRenderer
+from bringscript.core import (
+    ComponentsGenerator,
+    DestinationPreparableMixin,
+    TemplateRenderer,
+)
 
 
-class EelComponentsGenerator(ComponentsGenerator):
+class EelComponentsGenerator(ComponentsGenerator, DestinationPreparableMixin):
     def __init__(self, renderer, generator_args, parent_dir, child_dir):
         self._parent_dir = parent_dir
         self._child_dir = child_dir
@@ -13,7 +17,7 @@ class EelComponentsGenerator(ComponentsGenerator):
         return cls(renderer, generator_args, parent_dir, child_dir)
 
     def _preprocess(self):
-        pass
+        self.prepare()
 
     def _postprocess(self):
         pass
