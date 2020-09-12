@@ -99,3 +99,43 @@ class ComponentsGeneratorTestCase(TestCase):
         )
         self.assertEqual(actual._args, self.args)
         template_renderer_create.assert_called_once_with(template_dir)
+
+
+class DestinationPreparableMixinTestCase(TestCase):
+    def setUp(self):
+        self.parent_dir = MagicMock(spec=str)
+        self.child_dir = MagicMock(spec=str)
+
+    def test_init(self):
+        actual = core.DestinationPreparableMixin(
+            self.parent_dir, self.child_dir
+        )
+
+        self.assertEqual(actual._parent_dir, self.parent_dir)
+        self.assertEqual(actual._child_dir, self.child_dir)
+
+    @patch("bringscript.core.Path")
+    def test_prepare_when_directory_not_exists(self, pathlib_path):
+        sut = core.DestinationPreparableMixin(self.parent_dir, self.child_dir)
+        parent_dir_path = MagicMock(spec=Path)
+        parent_dir_path.exists.return_value = False
+        pathlib_path.return_value = parent_dir_path
+        dest_dir = parent_dir_path / self.child_dir
+
+        sut.prepare()
+
+        pathlib_path.assert_called_once_with(self.parent_dir)
+        dest_dir.mkdir.assert_called_once_with(parents=True)
+
+    @patch("bringscript.core.Path")
+    def test_prepare_raises_error_when_directory_exists(self, pathlib_path):
+        sut = core.DestinationPreparableMixin(self.parent_dir, self.child_dir)
+        parent_dir_path = MagicMock(spec=Path)
+        parent_dir_path.exists.return_value = True
+
+        with self.assertRaises(RuntimeError) as cm:
+            sut.prepare()
+        self.assertEqual(
+            cm.exception.args[0],
+            f"{self.parent_dir} already exists (stop not to overwrite)",
+        )
