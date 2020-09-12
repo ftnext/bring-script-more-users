@@ -8,3 +8,6 @@ class TemplateRenderArgument:
     src: Path
     dest: Path
     context: Dict
+
+    def as_tuple(self):
+        raise NotImplementedError
