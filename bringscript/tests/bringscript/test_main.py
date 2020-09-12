@@ -33,3 +33,32 @@ class MainTestCase(TestCase):
             generator_args, parent_dir=f"{args.dest_dir}/gui", child_dir="web"
         )
         components_generator.generate.assert_called_once_with()
+
+    @patch("bringscript.main.FlaskComponentsGenerator.create")
+    @patch("bringscript.main.parse_args")
+    def test_when_web_is_specified(self, parse_args, flask_generator_create):
+        args = parse_args.return_value
+        args.mode = "web"
+        generator_args = [
+            TemplateRenderArgument(
+                Path("webapp/webapp.py.jinja"),
+                Path(f"{args.dest_dir}/webapp/webapp.py"),
+                {"app_name": args.app_name},
+            ),
+            TemplateRenderArgument(
+                Path("webapp/webapp.html.jinja"),
+                Path(f"{args.dest_dir}/webapp/templates/{args.app_name}.html"),
+                {},
+            ),
+        ]
+        components_generator = flask_generator_create.return_value
+
+        main.main()
+
+        parse_args.assert_called_once_with()
+        flask_generator_create.assert_called_once_with(
+            generator_args,
+            parent_dir=f"{args.dest_dir}/webapp",
+            child_dir="templates",
+        )
+        components_generator.generate.assert_called_once_with()
