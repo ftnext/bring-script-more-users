@@ -39,7 +39,7 @@ class ParseArgsTestCase(TestCase):
         argument_parser.assert_called_once_with()
         mock_parser.add_argument.assert_has_calls(
             [
-                call("mode", choices=["gui"]),
+                call("mode", choices=["gui", "web"]),
                 call("app_name"),
                 call("dest_dir", type=parser.existing_dir_path),
             ]

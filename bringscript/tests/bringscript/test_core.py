@@ -139,3 +139,38 @@ class DestinationPreparableMixinTestCase(TestCase):
             cm.exception.args[0],
             f"{self.parent_dir} already exists (stop not to overwrite)",
         )
+
+
+class PreparableComponentsGeneratorTestCase(TestCase):
+    def setUp(self):
+        self.renderer = MagicMock(spec=core.TemplateRenderer)
+        self.generator_args = MagicMock(spec=list)
+        self.parent_dir = MagicMock(spec=str)
+        self.child_dir = MagicMock(spec=str)
+
+    def test_init(self):
+        from bringscript.core import (
+            ComponentsGenerator,
+            DestinationPreparableMixin,
+        )
+
+        actual = core.PreparableComponentsGenerator(
+            self.renderer, self.generator_args, self.parent_dir, self.child_dir
+        )
+
+        self.assertIsInstance(actual, ComponentsGenerator)
+        self.assertIsInstance(actual, DestinationPreparableMixin)
+        self.assertEqual(actual._renderer, self.renderer)
+        self.assertEqual(actual._args, self.generator_args)
+        self.assertEqual(actual._parent_dir, self.parent_dir)
+        self.assertEqual(actual._child_dir, self.child_dir)
+
+    @patch("bringscript.core.PreparableComponentsGenerator.prepare")
+    def test_preprocess(self, prepare):
+        sut = core.PreparableComponentsGenerator(
+            self.renderer, self.generator_args, self.parent_dir, self.child_dir
+        )
+
+        sut._preprocess()
+
+        prepare.assert_called_once_with()

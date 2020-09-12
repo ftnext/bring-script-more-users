@@ -64,3 +64,18 @@ class DestinationPreparableMixin:
             raise RuntimeError(message)
         dest_dir_path = parent_dir_path / self._child_dir
         dest_dir_path.mkdir(parents=True)
+
+
+class PreparableComponentsGenerator(
+    ComponentsGenerator, DestinationPreparableMixin
+):
+    def __init__(self, renderer, generator_args, parent_dir, child_dir):
+        self._parent_dir = parent_dir
+        self._child_dir = child_dir
+        super().__init__(renderer, generator_args)
+
+    def _preprocess(self):
+        self.prepare()
+
+    def _postprocess(self):
+        pass
