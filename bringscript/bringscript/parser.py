@@ -12,7 +12,7 @@ def existing_dir_path(path_str: str) -> Path:
 
 def parse_args():
     parser = ArgumentParser()
-    parser.add_argument("mode", choices=["gui"])
+    parser.add_argument("mode", choices=["gui", "web"])
     parser.add_argument("app_name")
     parser.add_argument("dest_dir", type=existing_dir_path)
     return parser.parse_args()
