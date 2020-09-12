@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+from pathlib import Path
+from typing import Dict
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -7,12 +9,18 @@ class TemplateRenderer:
     def __init__(self, environment):
         self._environment = environment
 
-    def render_in_file(self):
-        raise NotImplementedError
+    def render_in_file(self, src: Path, dest: Path, context: Dict) -> None:
+        # deal with the following error
+        # AttributeError: 'PosixPath' object has no attribute 'split'
+        template = self._environment.get_template(str(src))
+        output = template.render(**context)
+        with open(dest, "w") as fout:
+            fout.write(output)
 
     @classmethod
-    def create(cls, template_dir_name: str) -> "TemplateRenderer":
-        file_loader = FileSystemLoader(template_dir_name)
+    def create(cls) -> "TemplateRenderer":
+        parent_dir = Path(__file__).resolve(strict=True).parent
+        file_loader = FileSystemLoader(parent_dir / "templates")
         environment = Environment(loader=file_loader)
         return cls(environment)
 
