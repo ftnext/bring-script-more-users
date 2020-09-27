@@ -1,8 +1,10 @@
+from pathlib import Path
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 from bringscript import components_generator
 from bringscript.core import PreparableComponentsGenerator, TemplateRenderer
+from bringscript.data import TemplateRenderArgument
 
 
 class EelComponentsGeneratorTestCase(TestCase):
@@ -25,18 +27,34 @@ class EelComponentsGeneratorTestCase(TestCase):
 
     @patch("bringscript.core.TemplateRenderer.create")
     def test_create(self, renderer_create):
+        dest_dir = Path("test_gui")
+        app_name = MagicMock(spec=str)
+
         actual = components_generator.EelComponentsGenerator.create(
-            self.generator_args,
-            parent_dir=self.parent_dir,
-            child_dir=self.child_dir,
+            dest_dir,
+            app_name,
+            child_dir_name=self.child_dir,
         )
+
+        expected_args = [
+            TemplateRenderArgument(
+                Path("gui/gui.py.jinja"),
+                Path("test_gui/gui/gui.py"),
+                {"app_name": app_name},
+            ),
+            TemplateRenderArgument(
+                Path("gui/gui.html.jinja"),
+                Path(f"test_gui/gui/web/{app_name}.html"),
+                {},
+            ),
+        ]
 
         self.assertIsInstance(
             actual, components_generator.EelComponentsGenerator
         )
         self.assertEqual(actual._renderer, renderer_create.return_value)
-        self.assertEqual(actual._args, self.generator_args)
-        self.assertEqual(actual._parent_dir, self.parent_dir)
+        self.assertEqual(actual._args, expected_args)
+        self.assertEqual(actual._parent_dir, dest_dir / "gui")
         self.assertEqual(actual._child_dir, self.child_dir)
         renderer_create.assert_called_once_with()
 
