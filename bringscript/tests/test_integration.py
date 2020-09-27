@@ -49,3 +49,32 @@ class IntegrationTestCase(ComparableFileContentsMixin, TestCase):
             )
             self.assert_same_contents(script_path, expected_script_path)
             self.assert_same_contents(html_path, expected_html_path)
+
+    def test_should_generate_flask_templates(self):
+        with tempfile.TemporaryDirectory() as tempdir_name:
+            sys.argv = ["bringscript", "web", "integration", tempdir_name]
+
+            main.main()
+
+            tempdir_path = Path(tempdir_name)
+            script_path = tempdir_path / "webapp" / "webapp.py"
+            html_path = (
+                tempdir_path / "webapp" / "templates" / "integration.html"
+            )
+            self.assertTrue(script_path.exists())
+            self.assertTrue(html_path.exists())
+
+            tests_dir_path = Path(__file__).parent
+            expected_data_path = (
+                tests_dir_path
+                / "data"
+                / "test_integration"
+                / "expected"
+                / "flask"
+            )
+            expected_script_path = expected_data_path / "webapp.py"
+            expected_html_path = (
+                expected_data_path / "templates" / "integration.html"
+            )
+            self.assert_same_contents(script_path, expected_script_path)
+            self.assert_same_contents(html_path, expected_html_path)
