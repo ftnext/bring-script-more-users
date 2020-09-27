@@ -28,6 +28,21 @@ class EelComponentsGenerator(PreparableComponentsGenerator):
 
 class FlaskComponentsGenerator(PreparableComponentsGenerator):
     @classmethod
-    def create(cls, generator_args, parent_dir, child_dir):
+    def create(
+        cls, dest_dir: Path, app_name: str, child_dir_name: str
+    ) -> "FlaskComponentsGenerator":
+        parent_dir = dest_dir / "webapp"
+        generator_args = [
+            TemplateRenderArgument(
+                Path("webapp/webapp.py.jinja"),
+                Path(f"{parent_dir}/webapp.py"),
+                {"app_name": app_name},
+            ),
+            TemplateRenderArgument(
+                Path("webapp/webapp.html.jinja"),
+                Path(f"{parent_dir}/templates/{app_name}.html"),
+                {},
+            ),
+        ]
         renderer = TemplateRenderer.create()
-        return cls(renderer, generator_args, parent_dir, child_dir)
+        return cls(renderer, generator_args, parent_dir, child_dir_name)
