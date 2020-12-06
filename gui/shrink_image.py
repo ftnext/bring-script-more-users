@@ -56,7 +56,7 @@ def existing_path(path_str):
     return path
 
 
-@eel.expose()
+@eel.expose
 def resize(target_image_path_str, max_length):
     target_image_path = existing_path(target_image_path_str)
     if not target_image_path:
