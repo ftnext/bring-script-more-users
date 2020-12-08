@@ -64,8 +64,17 @@ def existing_path(path_str):
 def main():
     # code for CLI
     parser = ArgumentParser()
-    parser.add_argument("target_image_path", type=existing_path)
-    parser.add_argument("--max_length", default=300, type=int)
+    parser.add_argument(
+        "target_image_path",
+        type=existing_path,
+        help="specify image file or directory path to be resized",
+    )
+    parser.add_argument(
+        "--max_length",
+        default=300,
+        type=int,
+        help="specify max length (default: %(default)s)",
+    )
     args = parser.parse_args()
 
     # Enable to pass not only a directory path but also a file path
