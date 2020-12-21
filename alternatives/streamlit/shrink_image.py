@@ -46,23 +46,22 @@ def resize_image(image_path, save_path, max_length):
 
 
 @st.cache
-def resize_images(image_file_objects, max_length):
-    """Return resized image paths to make use of cache of streamlit
+def resize_uploaded_image(image_file_object, max_length):
+    """Return resized image path to make use of cache of streamlit
 
-    When image_file_objects and max_length are the same,
+    When image_file_object and max_length are the same,
     there is no need to resize them again
     """
     random_id = uuid.uuid4()
     shrinked_dir_path = Path(f"images/{random_id}")
     shrinked_dir_path.mkdir(exist_ok=True)
 
-    resized_images = []
-    for image_file in image_file_objects:
-        resized_image_path = shrinked_dir_path / image_file.name
-        has_resized = resize_image(image_file, resized_image_path, max_length)
-        if has_resized:
-            resized_images.append(resized_image_path)
-    return resized_images
+    resized_image_path = shrinked_dir_path / image_file_object.name
+    has_resized = resize_image(
+        image_file_object, resized_image_path, max_length
+    )
+    if has_resized:
+        return resized_image_path
 
 
 st.title("Resize image")
@@ -74,6 +73,7 @@ uploaded_files = st.file_uploader(
 )
 max_length = st.slider("Specify max length", 100, 500, 300, 50)
 if uploaded_files:
-    resized_images_paths = resize_images(uploaded_files, max_length)
-    for resized_image_path in resized_images_paths:
-        st.image(str(resized_image_path))
+    for uploaded_file in uploaded_files:
+        resized_image_path = resize_uploaded_image(uploaded_file, max_length)
+        if resized_image_path:
+            st.image(str(resized_image_path))
