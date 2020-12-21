@@ -1,2 +1,11 @@
 # Use to deploy webapp on heroku
 -r webapp/requirements.lock 
+
+# When deploying to Streamlit Sharing,
+# THIS requirements file in the root of the repository will be referred.
+# The current Streamlit app depends only on Streamlit,
+# and the dependencies seems to be satisfied
+# in the default Streamlit Sharing environment.
+# If you want to add other packages in the future
+# that are not dependencies of Streamlit, comment in the following line
+# -r alternatives/streamlit/requirements.lock
