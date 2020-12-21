@@ -54,7 +54,7 @@ def resize_uploaded_image(image_file_object, max_length):
     """
     random_id = uuid.uuid4()
     shrinked_dir_path = Path(f"images/{random_id}")
-    shrinked_dir_path.mkdir(exist_ok=True)
+    shrinked_dir_path.mkdir(parents=True, exist_ok=True)
 
     resized_image_path = shrinked_dir_path / image_file_object.name
     has_resized = resize_image(
