@@ -1,3 +1,4 @@
+# Streamlit dependencies (satisfied in the default Streamlit Sharing env)
 altair==4.1.0
 appdirs==1.4.4
 appnope==0.1.2
