@@ -40,7 +40,24 @@
     </style>
     <script type="text/javascript" src="/eel.js"></script>
     <script type="text/javascript">
+      function switchStyledColor() {
+        // Example: Change class with JavaScript (botton color switches between red and blue)
+        let styledElements = document.getElementsByClassName("styled");
+        // ref: https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByClassName
+        for (var i=0, len=styledElements.length|0; i<len; i=i+1|0) {
+          if (styledElements[i].classList.contains("red-styled")) {
+            styledElements[i].classList.remove("red-styled");
+            styledElements[i].classList.add("blue-styled");
+          }
+          else if (styledElements[i].classList.contains("blue-styled")) {
+            styledElements[i].classList.remove("blue-styled");
+            styledElements[i].classList.add("red-styled");
+          }
+        }
+      }
       function print_greeting(message) {
+        switchStyledColor();
+
         let greeting = document.getElementById("greeting");
         greeting.innerHTML = message;
       }
