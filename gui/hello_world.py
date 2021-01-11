@@ -38,6 +38,11 @@ class Helloer:
     def say_static():
         return "Hello World from static method"
 
+    @staticmethod
+    @eel.expose("Helloer.another_say_static_method")
+    def say_another_static():
+        return "Hellooooooo World from another one"
+
 
 eel.init("hello")
 eel.start("hello.html", size=(300, 200))
