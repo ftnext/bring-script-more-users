@@ -35,6 +35,10 @@
         greeting.innerHTML = message;
       }
       function greeting() {
+        // See attributes: say_hello, Helloest
+        console.log(eel);
+        // console.log(eel.Helloest.say());  // raises `Uncaught TypeError: eel.Helloest.say is not a function` in JavaScript
+        // eel.Helloest()(print_greeting);  // No error but message of print_greeting is null (not Python class object)
         eel.say_hello()(print_greeting);
       }
       // Another way to receive return values: await
