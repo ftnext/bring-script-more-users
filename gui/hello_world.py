@@ -18,5 +18,26 @@ class Helloest:
         return "Hello World from Helloest class"
 
 
+class Helloer:
+    class_var = "BLOND"
+
+    def __init__(self, name):
+        self.name = name
+
+    @eel.expose("Helloer_say_instance_method")
+    def say_instance(self):
+        return f"Hello World from instance method / {self.name}"
+
+    @classmethod
+    @eel.expose("Helloer_say_class_method")
+    def say_class(cls):
+        return f"Hello World from class method / {cls.class_var}"
+
+    @staticmethod
+    @eel.expose("Helloer_say_static_method")
+    def say_static():
+        return "Hello World from static method"
+
+
 eel.init("hello")
 eel.start("hello.html", size=(300, 200))
