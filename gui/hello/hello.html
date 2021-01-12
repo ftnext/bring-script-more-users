@@ -35,7 +35,28 @@
         greeting.innerHTML = message;
       }
       function greeting() {
-        eel.say_hello()(print_greeting);
+        // See attributes: say_hello, Helloest, Helloer_say_instance_method, Helloer_say_class_method, Helloer_say_static_method, Helloer.another_say_static_method
+        console.log(eel);
+        // console.log(eel.Helloest.say());  // raises `Uncaught TypeError: eel.Helloest.say is not a function` in JavaScript
+        // eel.Helloest()(print_greeting);  // No error but message of print_greeting is null (not Python class object)
+
+        // pass some value as self/cls parameter to prevent `TypeError: say_instance() missing 1 required positional argument: 'self'` in Python
+        // But it causes another error `AttributeError: 'dict' object has no attribute 'name'` in Python
+        // Maps and class instances seem to be passed as Python's dict
+        /*
+        let Hoge = class {
+          constructor(name) {
+            this.name = name;
+          }
+        };
+        console.log(eel.Helloer_say_instance_method(new Hoge("hoge")));
+        console.log(eel.Helloer_say_class_method({class_var: "foo"}));
+        */
+        console.log(eel.Helloer_say_static_method());  // staticmethod does not need self or cls parameter
+        
+        // if you expose the function as the name include period, specify like Python's dict
+        // console.log(eel.Helloer.another_say_static_method());  // raises `Uncaught TypeError: Cannot read property 'another_say_static_method' of undefined` in JavaScript
+        eel["Helloer.another_say_static_method"]()(print_greeting);
       }
       // Another way to receive return values: await
       // async function greeting() {
