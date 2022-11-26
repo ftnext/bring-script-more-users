@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Resize image</h1>
+
+    
+      <img src="resized_pyconjp.jpg">
+    
+
+    <form method="post" enctype="multipart/form-data">
+      <div>
+        <label for="image_file">Specify image(s) to be resized in your computer:</label>
+        <input id="image_file" type="file" name="image_file" accept="image/png, image/jpeg" required multiple disabled>
+      </div>
+      <div>
+        <label for="max-length-input">Specify max length:</label>
+        <input id="max_length" name="max_length" value="300" required disabled>
+      </div>
+      <div>
+        <button type="submit" disabled>Send</button>
+      </div>
+    </form>
+  </body>
+</html>
